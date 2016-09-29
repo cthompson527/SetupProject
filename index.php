@@ -21,7 +21,7 @@
             padding: 0;
         }
         #map {
-            height: 100%;
+            height: 60%;
         }
     </style>
     <script src="vars.js"></script>
@@ -37,6 +37,21 @@
         });
     }
 </script>
+<form method="post" action="<?= $_SERVER['PHP_SELF']; ?>">
+    <p>
+        <label for="city">City:</label>
+        <input type="text" name="city" id="city">
+    </p>
+
+    <p>
+        <label for="state">State:</label>
+        <input type="text" name="state" id="state">
+    </p>
+
+    <p>
+        <input type="submit" name="submitCity" id="submitCity" value="Search for City">
+    </p>
+</form>
 <script type="text/javascript">
     var maps = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&callback=initMap"
     document.write("<script type='text/javascript' src='"+ maps + "'><\/script>");
