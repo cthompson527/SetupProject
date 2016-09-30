@@ -9,7 +9,7 @@ on the Google Map. Objectives listed below:
 
 - [x] The user is prompted with the form.
 - [x] After submitting the form, the Google Maps location is presented.
-- [ ] The user is prompted to enter a category of food.
+- [x] The user is prompted to enter a category of food.
 - [ ] 10 local, top restaurants are pinged on the map.
 - [ ] The user can click on a ping and restaurant information is presented.
 Information such as price, ratings, and reviews is presented on the screen.
