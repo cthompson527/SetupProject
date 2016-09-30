@@ -7,8 +7,8 @@ restaurants in the city/state using Yelp's API. Once the user types a category o
 restaurant, the top local 10 restaurants will be presented to the user, with the location pinged
 on the Google Map. Objectives listed below:
 
-- [ ] The user is prompted with the form.
-- [ ] After submitting the form, the Google Maps location is presented.
+- [x] The user is prompted with the form.
+- [x] After submitting the form, the Google Maps location is presented.
 - [ ] The user is prompted to enter a category of food.
 - [ ] 10 local, top restaurants are pinged on the map.
 - [ ] The user can click on a ping and restaurant information is presented.
