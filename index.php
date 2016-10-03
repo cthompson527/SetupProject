@@ -5,12 +5,20 @@
  * Date: 9/28/16
  * Time: 3:53 PM
  */
+require_once ('lib/YelpClient.php');
+
 $geo = [];
 if (isset($_GET["city"])) {
     $city = $_GET["city"];
 
     if (isset($_GET["state"])) $state = $_GET["state"];
     getGeographicLocation($city);
+}
+
+if (isset($_GET["submitFood"])) {
+    $category = $_GET["food"];
+    print_r($category);
+    getLocalRestaurants($category);
 }
 
 function getGeographicLocation($city) {
@@ -23,6 +31,12 @@ function getGeographicLocation($city) {
     $GLOBALS['geo']['lat'] = $jsonValue['results'][0]['geometry']['location']['lat'];
     $GLOBALS['geo']['lng'] = $jsonValue['results'][0]['geometry']['location']['lng'];
 //    print_r($GLOBALS['geo']['lat']);
+}
+
+function getLocalRestaurants($category) {
+    $returnValue = search('food', 'College Station', 10);
+//    print_r($returnValue);
+
 }
 ?>
 
@@ -82,7 +96,7 @@ function getGeographicLocation($city) {
 
 <form method="get" action="<?= $_SERVER['PHP_SELF']; ?>">
     <p><input type="radio" name="food" value="candy">Candy Stores</p>
-    <p><input type="radio" name="food" value="chees">Cheese Shops</p>
+    <p><input type="radio" name="food" value="cheese">Cheese Shops</p>
     <p><input type="radio" name="food" value="chocolate">Chocolatiers</p>
     <p><input type="radio" name="food" value="dagashi">Dagashi</p>
     <p><input type="radio" name="food" value="frozenfood">Frozen Food</p>
