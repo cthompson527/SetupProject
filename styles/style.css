@@ -9,7 +9,7 @@ body {
     font-family: Garamond, sans-serif;
 }
 
-h1 { font-size: 4.0em; }
+h1 { font-size: 3.0em; }
 p, li { font-size: 1.8em; }
 
 .clear { clear: both; }
@@ -34,5 +34,23 @@ p, li { font-size: 1.8em; }
 }
 #sidebar ul {
     list-style: inside;
+}
+
+#phoneAndRating {
+    white-space: nowrap;
+}
+
+#widget {
+    margin: auto;
+    background-color: aquamarine;
+    max-width: 300px;
+    height: auto;
+
+}
+
+.widgetImage {
+    float: right;
+    height: 100%;
+    width: auto;
 }
 

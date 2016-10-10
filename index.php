@@ -76,43 +76,12 @@ function getLocalRestaurants($category) {
     </style>
     <link rel="stylesheet" type="text/css" href="styles/style.css">
     <script src="vars.js"></script>
+    <script src="https://fb.me/react-15.2.1.js"></script>
+    <script src="https://fb.me/react-dom-15.2.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.34/browser.js"></script>
     <script>
-        var map;
-        function initMap() {
-            // loop taken from StackOverflow: http://stackoverflow.com/a/12813649
-            var geo = {};
-            <?php foreach($geo as $key => $value) { ?>
-                geo.<?php echo $key; ?> = <?php echo $value; ?>;
-            <?php } ?>
-            if (Object.keys(geo).length == 0) {
-                geo.lat = 30.628;
-                geo.lng = -96.334;
-            }
-            map = new google.maps.Map(document.getElementById('map'), {
-                center: {lat: geo.lat, lng: geo.lng},
-                zoom: 10
-            });
 
-            if (<?php echo isset($businesses) ?>) {
-                setMap();
-            }
-        }
 
-        function setMap() {
-            <?php foreach ($businesses as $business) { ?>
-                var businessName = "<?php echo $business['name'] ?>";
-                var businessRating = "<?php echo $business['rating'] ?>";
-                var businessPhone = "<?php echo $business['phone'] ?>";
-                var businessImageURL = "<?php echo $business['image_url'] ?>";
-                var businessLocation = { lat: <?php echo $business['location']['lat'] ?>,
-                                         lng: <?php echo $business['location']['lng'] ?> };
-                var marker = new google.maps.Marker({
-                    position: businessLocation,
-                    map: map,
-                    title: businessName
-                });
-            <?php } ?>
-        }
     </script>
 </head>
 <body>
@@ -155,7 +124,82 @@ function getLocalRestaurants($category) {
 <script type="text/javascript">
     var maps = "https://maps.googleapis.com/maps/api/js?key=" + googleKey + "&callback=initMap";
     document.write("<script async defer type='text/javascript' src='"+ maps + "'><\/script>");
+
+    var map;
+    function initMap() {
+        // loop taken from StackOverflow: http://stackoverflow.com/a/12813649
+        var geo = {};
+        <?php foreach($geo as $key => $value) { ?>
+        geo.<?php echo $key; ?> = <?php echo $value; ?>;
+        <?php } ?>
+        if (Object.keys(geo).length == 0) {
+            geo.lat = 30.628;
+            geo.lng = -96.334;
+        }
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: geo.lat, lng: geo.lng},
+            zoom: 10
+        });
+
+        if (<?php echo isset($businesses) ?>) {
+            setMap();
+        }
+    }
+
+    function setMap() {
+        var markers = [];
+        <?php foreach ($businesses as $business) { ?>
+        var businessName = "<?php echo $business['name'] ?>";
+        var businessRating = "<?php echo $business['rating'] ?>";
+        var businessPhone = "<?php echo $business['phone'] ?>";
+        var businessImageURL = "<?php echo $business['image_url'] ?>";
+        var businessLocation = {
+            lat: <?php echo $business['location']['lat'] ?>,
+            lng: <?php echo $business['location']['lng'] ?> };
+        var marker = new google.maps.Marker({
+            position: businessLocation,
+            map: map,
+            title: businessName,
+            phone: businessPhone,
+            imageURL: businessImageURL,
+            rating: businessRating
+
+        });
+
+        marker.addListener('click', function() {
+            myWidget.setState({name: this.title, image: this.imageURL, phone: this.phone, rating: this.rating});
+        });
+
+        <?php } ?>
+
+        var Widget = React.createClass({
+            getInitialState() {
+                return {name: "click on pin"}
+            },
+
+            render() {
+                return (
+                    React.createElement("div", null,
+                        [
+                            React.createElement("img", {src: this.state.image, className: "widgetImage"}, null),
+                            React.createElement("span", null, [
+                                React.createElement("h1", null, this.state.name),
+                                React.createElement("p", null, this.state.phone),
+                                React.createElement("p", null, this.state.rating)
+                            ])
+                        ]
+                    )
+                )
+            }
+        });
+        var myWidget = ReactDOM.render(React.createElement(Widget, {message: businessName}), document.getElementById('widget'));
+    }
 </script>
+<div id="widget"></div>
+<script type="text/babel">
+
+</script>
+
 </body>
 </html>
 
